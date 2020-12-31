@@ -1,0 +1,9 @@
+{
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#fff",
+  "navigationBarTitleText": "行业",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "painter": "/static/painter/painter"
+  }
+}

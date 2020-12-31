@@ -1,0 +1,115 @@
+{
+  "pages": [
+    "pages/login/main",
+    "pages/home/main",
+    "pages/index/main",
+    "pages/scan/exchange/main",
+    "pages/scan/scanInfo/main",
+    "pages/scan/main",
+    "pages/setPasword/main",
+    "pages/owner/main",
+    "pages/forget/main",
+    "pages/selectCar/car/main"
+  ],
+  "navigateToMiniProgramAppIdList": [
+    "wxb531f813eaa2c2ea"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "寻道SaaS",
+    "navigationBarTextStyle": "black",
+    "disableSwipeBack": true
+  },
+  "usingComponents": {
+    "painter": "/static/painter/painter"
+  },
+  "subPackages": [
+    {
+      "root": "pages/app",
+      "pages": [
+        "allocationCustomer/customer/main",
+        "allocationCustomer/appointSale/main",
+        "needCollect/main",
+        "needCollect/carBrand/main",
+        "needCollect/carStyle/main",
+        "consumptionLevel/main",
+        "characterAnalysis/main",
+        "dealWish/main",
+        "intentionCar/main",
+        "readCar/carList/main",
+        "readCar/carChart/main",
+        "maintainRatio/main",
+        "pastCar/main",
+        "salesGroup/main",
+        "defeatReport/main",
+        "defeatDetail/main",
+        "guestFlow/main",
+        "datePick/dateSelect/main",
+        "successPrice/main",
+        "shopSelect/main",
+        "shopSelect/slectArea/main",
+        "portrait/main",
+        "salePerformance/main",
+        "salePerformanceList/main",
+        "salePerformanceDetail/main",
+        "stayFiles/main",
+        "stayFilesList/main",
+        "stayFilesLookDetail/main",
+        "passengerFlow/main",
+        "quote/edit/main",
+        "quote/share/main",
+        "myShare/main",
+        "todayPoster/main",
+        "tradeDetail/main",
+        "spokesman/main",
+        "notice/main",
+        "industry/main",
+        "self/main",
+        "garden/main"
+      ]
+    },
+    {
+      "root": "pages/generalSale",
+      "pages": [
+        "index/main",
+        "shareToB/main",
+        "shareCards/main",
+        "receptionCustomer/main",
+        "carStyleList/main",
+        "shopInvite/main",
+        "shopInviteUserPortrait/main",
+        "shopInviteShare/main",
+        "code/main",
+        "Confirm/main",
+        "rapidTaskmgr/main",
+        "viewallforma/main"
+      ]
+    },
+    {
+      "root": "pages/user",
+      "pages": [
+        "customerIn/main",
+        "main",
+        "addData/main",
+        "search/main",
+        "customerMsg/main",
+        "activity/main",
+        "customerTick/main",
+        "priceNote/main"
+      ]
+    },
+    {
+      "root": "pages/admin",
+      "pages": [
+        "recommendActivity/main",
+        "selfinfo/main",
+        "advise/main",
+        "about/main",
+        "password/main",
+        "weixinName/main"
+      ]
+    }
+  ],
+  "sitemapLocation": "sitemap.json"
+}

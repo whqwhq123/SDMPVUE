@@ -1,0 +1,148 @@
+{
+  "description": "项目配置文件",
+  "packOptions": {
+    "ignore": []
+  },
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "enhance": false,
+    "postcss": true,
+    "preloadBackgroundData": false,
+    "minified": true,
+    "newFeature": true,
+    "coverView": true,
+    "nodeModules": false,
+    "autoAudits": false,
+    "showShadowRootInWxmlPanel": true,
+    "scopeDataCheck": false,
+    "uglifyFileName": true,
+    "checkInvalidKey": true,
+    "checkSiteMap": true,
+    "uploadWithSourceMap": true,
+    "compileHotReLoad": false,
+    "useMultiFrameRuntime": false,
+    "useApiHook": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "useIsolateContext": true,
+    "useCompilerModule": false,
+    "userConfirmedUseCompilerModuleSwitch": false,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true
+  },
+  "compileType": "miniprogram",
+  "libVersion": "2.6.6",
+  "appid": "wx28959871681a9135",
+  "projectname": "biddingng_procedure_sale",
+  "miniprogramRoot": "dist/wx/",
+  "cloudfunctionTemplateRoot": "",
+  "debugOptions": {
+    "hidedInDevtools": []
+  },
+  "scripts": {},
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "condition": {
+    "search": {
+      "list": []
+    },
+    "conversation": {
+      "list": []
+    },
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "id": -1,
+          "name": "销售业绩",
+          "pathName": "pages/app/salePerformance/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "销售留资",
+          "pathName": "pages/app/stayFiles/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "failed",
+          "pathName": "pages/app/salesGroup/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "defeatReport",
+          "pathName": "pages/app/defeatReport/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "qww",
+          "pathName": "pages/app/stayFiles/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 5,
+          "name": "activity",
+          "pathName": "pages/user/activity/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "index",
+          "pathName": "pages/index/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "selefinfo",
+          "pathName": "pages/admin/selfinfo/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pass",
+          "pathName": "pages/admin/password/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "advise",
+          "pathName": "pages/admin/advise/main",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "recommendActivity",
+          "pathName": "pages/user/recommendActivity/main",
+          "query": "",
+          "scene": null
+        }
+      ]
+    }
+  }
+}
