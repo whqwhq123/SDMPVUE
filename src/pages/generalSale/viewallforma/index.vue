@@ -1,154 +1,585 @@
 <template>
-  <div class="allpendcom">
-    <div class="allpendcomBox">
-      <div
-        :class="[{ atv: item.isShow }, 'tabs']"
-        v-for="(item, index) in tabs"
-        @click="avtTabsFun(item, index)"
-        :key="item"
-      >
-        {{ item.title }}
-        <span :class="{ line: item.isShow }"></span>
-        <div class="tipsDiv" v-if="item.tips === 0 ? false : true">
-          <span class="tips">{{ item.tips }}</span>
+  <div>
+    <div class="allpendcom">
+      <div class="allpendcomBox">
+        <div
+          :class="[{ atv: item.isShow }, 'tabs']"
+          v-for="(item, index) in tabs"
+          @click="avtTabsFun(item, index)"
+          :key="item"
+        >
+          {{ item.title }}
+          <span :class="{ line: item.isShow }"></span>
+          <div class="tipsDiv" v-if="item.tips === 0 ? false : true">
+            <span class="tips">{{ item.tips }}</span>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="linerow"></div>
-    <div class="allpendcomList">
-      <div class="viewallItem">
-        <div
-          class="viewallItem_top"
-          :style="{ height: tabsIndex != 2 ? '226rpx' : '80rpx' }"
-        >
-          <div class="viewallItem_top_l_t viewallItem_top_l_tb">
-            <div class="viewallItem_top_l">
-              <div class="viewallItem_top_l_img">
-                <!-- <img src="" alt="" /> -->
-              </div>
-              <div class="viewallItem_top_l_tit">
-                <div class="viewallItem_top_l_titp">
-                  颤三<span class="level_icon" :style="colorObj[4]">{{
-                    levelval[4]
-                  }}</span>
+      <div class="linerow"></div>
+      <div class="allpendcomList">
+        <div class="viewallItem">
+          <div
+            class="viewallItem_top"
+            :style="{ height: tabsIndex != 2 ? '226rpx' : '80rpx' }"
+          >
+            <div class="viewallItem_top_l_t viewallItem_top_l_tb">
+              <div class="viewallItem_top_l">
+                <div class="viewallItem_top_l_img">
+                  <!-- <img src="" alt="" /> -->
                 </div>
-                <div>13280504044</div>
+                <div class="viewallItem_top_l_tit">
+                  <div class="viewallItem_top_l_titp">
+                    颤三<span class="level_icon" :style="colorObj[4]">{{
+                      levelval[4]
+                    }}</span>
+                  </div>
+                  <div>13280504044</div>
+                </div>
               </div>
-            </div>
-            <div class="viewallItem_top_r">
-              <img
+              <div class="viewallItem_top_r">
+                <!-- <img
                 v-if="imageApi"
                 :src="imageApi + '/iconviewPhone.png'"
                 alt=""
-              />
-            </div>
-          </div>
-          <div
-            class="viewallItem_top_l_b viewallItem_top_l_tb"
-            v-if="tabsIndex != 2"
-          >
-            <div class="viewallItem_top_l_b_tit">距离预约时间还有:</div>
-            <div class="viewallItem_top_l_b_time">
-              0天
-              <span class="viewallItem_top_l_b_timesty">00</span> :
-              <span class="viewallItem_top_l_b_timesty">00</span> :
-              <span class="viewallItem_top_l_b_timesty">00</span>
-            </div>
-            <div class="viewallItem_top_l_b_sh">
-              {{ tabsIndex ? "结束试驾" : "审核" }}
-            </div>
-          </div>
-        </div>
-        <div class="viewallItem_but">
-          <div class="viewallItem_but_top">
-            <div class="viewallItem_but_img">
-              <!-- <img src="" alt=""> -->
-            </div>
-            <div class="viewallItem_but_tit">
-              <div class="viewallItem_but_tit1">
-                <div class="viewallItem_but_tit11">预约时间:</div>
-                <div class="viewallItem_but_tit12">2020-12-14 13:30:00</div>
+              /> -->
               </div>
-              <div class="viewallItem_but_tit2">
-                奥迪A6 2020款 1.8T 自动 豪华型
+            </div>
+            <div
+              class="viewallItem_top_l_b viewallItem_top_l_tb"
+              v-if="tabsIndex != 2"
+            >
+              <div class="viewallItem_top_l_b_tit">距离预约时间还有:</div>
+              <div class="viewallItem_top_l_b_time">
+                0天
+                <span class="viewallItem_top_l_b_timesty">00</span> :
+                <span class="viewallItem_top_l_b_timesty">00</span> :
+                <span class="viewallItem_top_l_b_timesty">00</span>
               </div>
-              <div class="viewallItem_but_tit3">
-                <div class="viewallItem_but_tit31">指导价格:</div>
-                <div class="viewallItem_but_tit32">29.66~32.99万</div>
+              <div
+                class="viewallItem_top_l_b_sh"
+                @click="viewallItemClick(tabsIndex)"
+              >
+                {{ tabsIndex ? "结束试驾" : "审核" }}
               </div>
             </div>
           </div>
-          <div class="feedback" v-if="tabsIndex == 2">
-            <template v-if="isfj">
-              <div class="viewallItem_but_feedback" @click="isfankuiFun">
-                <div class="viewallItem_but_feedback_p">查看试驾反馈</div>
-                <!-- iconTop.png -->
-                <div class="viewallItem_but_feedback_img">
-                  <img
-                    style="width: 100%; height: 100%"
-                    v-if="imageApi"
-                    :src=" isfankui?imageApi +'/iconBut.png':imageApi +'/iconTop.png'"
-                    alt=""
-                  />
+          <div class="viewallItem_but">
+            <div class="viewallItem_but_top">
+              <div class="viewallItem_but_img">
+                <!-- <img src="" alt=""> -->
+              </div>
+              <div class="viewallItem_but_tit">
+                <div class="viewallItem_but_tit1">
+                  <div class="viewallItem_but_tit11">预约时间:</div>
+                  <div class="viewallItem_but_tit12">2020-12-14 13:30:00</div>
+                </div>
+                <div class="viewallItem_but_tit2">
+                  奥迪A6 2020款 1.8T 自动 豪华型
+                </div>
+                <div class="viewallItem_but_tit3">
+                  <div class="viewallItem_but_tit31">指导价格:</div>
+                  <div class="viewallItem_but_tit32">29.66~32.99万</div>
                 </div>
               </div>
-              <div class="viewallItem_but_con" v-if="isfankui">
-                <div class="viewallItem_but_con_img">
-                  <img
+            </div>
+            <div class="feedback" v-if="tabsIndex == 2">
+              <template v-if="isfj">
+                <div class="viewallItem_but_feedback" @click="isfankuiFun">
+                  <div class="viewallItem_but_feedback_p">查看试驾反馈</div>
+                  <!-- iconTop.png -->
+                  <div class="viewallItem_but_feedback_img">
+                    <!-- <img
+                    style="width: 100%; height: 100%"
+                    v-if="imageApi"
+                    :src="
+                      isfankui
+                        ? imageApi + '/iconBut.png'
+                        : imageApi + '/iconTop.png'
+                    "
+                    alt=""
+                  /> -->
+                  </div>
+                </div>
+                <div class="viewallItem_but_con" v-if="isfankui">
+                  <div class="viewallItem_but_con_img">
+                    <!-- <img
                     style="width: 100%; height: 100%"
                     v-if="imageApi"
                     :src="imageApi + '/jzxd/veryNice_icon.png'"
                     alt=""
-                  />
+                  /> -->
+                  </div>
+                  <div class="viewallItem_but_con_p">满意</div>
+                  <div class="viewallItem_but_con_start">
+                    <div class="viewallItem_but_con_startXing">
+                      <div class="startXing_p">外观 :</div>
+                      <div class="startXing_xing">
+                        <statr-xing star="3"></statr-xing>
+                      </div>
+                    </div>
+                    <div class="viewallItem_but_con_startXing">
+                      <div class="startXing_p">内饰 :</div>
+                      <div class="startXing_xing">
+                        <statr-xing star="3"></statr-xing>
+                      </div>
+                    </div>
+                    <div class="viewallItem_but_con_startXing">
+                      <div class="startXing_p">性能 :</div>
+                      <div class="startXing_xing">
+                        <statr-xing star="5"></statr-xing>
+                      </div>
+                    </div>
+                    <div class="viewallItem_but_con_startXing">
+                      <div class="startXing_p">舒适度 :</div>
+                      <div class="startXing_xing">
+                        <statr-xing star="4"></statr-xing>
+                      </div>
+                    </div>
+                    <div class="viewallItem_but_con_startXing">
+                      <div class="startXing_p">实用性 :</div>
+                      <div class="startXing_xing">
+                        <statr-xing star="1"></statr-xing>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="viewallItem_but_con_tit">
+                    试驾反馈:试驾反馈信息试驾反馈信息试驾反馈信息试驾反馈信息试驾反馈信息试驾反馈信息试驾反馈信息试
+                  </div>
                 </div>
-                <div class="viewallItem_but_con_p">满意</div>
-                <div class="viewallItem_but_con_start">
-                  <div class="viewallItem_but_con_startXing">
-                    <div class="startXing_p">外观 :</div>
-                    <div class="startXing_xing">
-                      <statr-xing star="3"></statr-xing>
-                    </div>
-                  </div>
-                  <div class="viewallItem_but_con_startXing">
-                    <div class="startXing_p">内饰 :</div>
-                    <div class="startXing_xing">
-                      <statr-xing star="3"></statr-xing>
-                    </div>
-                  </div>
-                  <div class="viewallItem_but_con_startXing">
-                    <div class="startXing_p">性能 :</div>
-                    <div class="startXing_xing">
-                      <statr-xing star="5"></statr-xing>
-                    </div>
-                  </div>
-                  <div class="viewallItem_but_con_startXing">
-                    <div class="startXing_p">舒适度 :</div>
-                    <div class="startXing_xing">
-                      <statr-xing star="4"></statr-xing>
-                    </div>
-                  </div>
-                  <div class="viewallItem_but_con_startXing">
-                    <div class="startXing_p">实用性 :</div>
-                    <div class="startXing_xing">
-                      <statr-xing star="1"></statr-xing>
-                    </div>
-                  </div>
+              </template>
+              <template v-if="!isfj">
+                <div class="viewallItem_but_nofee">
+                  <span class="viewallItem_but_nofee_span">
+                    拒绝驾驶理由:
+                  </span>
+                  抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约
                 </div>
-                <div class="viewallItem_but_con_tit">
-                  试驾反馈:试驾反馈信息试驾反馈信息试驾反馈信息试驾反馈信息试驾反馈信息试驾反馈信息试驾反馈信息试
+              </template>
+            </div>
+          </div>
+        </div>
+        <div class="viewallItem">
+          <div
+            class="viewallItem_top"
+            :style="{ height: tabsIndex != 2 ? '226rpx' : '80rpx' }"
+          >
+            <div class="viewallItem_top_l_t viewallItem_top_l_tb">
+              <div class="viewallItem_top_l">
+                <div class="viewallItem_top_l_img">
+                  <!-- <img src="" alt="" /> -->
+                </div>
+                <div class="viewallItem_top_l_tit">
+                  <div class="viewallItem_top_l_titp">
+                    颤三<span class="level_icon" :style="colorObj[4]">{{
+                      levelval[4]
+                    }}</span>
+                  </div>
+                  <div>13280504044</div>
                 </div>
               </div>
-            </template>
-            <template v-if="!isfj">
-              <div class="viewallItem_but_nofee">
-                <span class="viewallItem_but_nofee_span"> 拒绝驾驶理由: </span>
-                抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约
+              <div class="viewallItem_top_r">
+                <!-- <img
+                v-if="imageApi"
+                :src="imageApi + '/iconviewPhone.png'"
+                alt=""
+              /> -->
               </div>
-            </template>
+            </div>
+            <div
+              class="viewallItem_top_l_b viewallItem_top_l_tb"
+              v-if="tabsIndex != 2"
+            >
+              <div class="viewallItem_top_l_b_tit">距离预约时间还有:</div>
+              <div class="viewallItem_top_l_b_time">
+                0天
+                <span class="viewallItem_top_l_b_timesty">00</span> :
+                <span class="viewallItem_top_l_b_timesty">00</span> :
+                <span class="viewallItem_top_l_b_timesty">00</span>
+              </div>
+              <div class="viewallItem_top_l_b_sh">
+                {{ tabsIndex ? "结束试驾" : "审核" }}
+              </div>
+            </div>
+          </div>
+          <div class="viewallItem_but">
+            <div class="viewallItem_but_top">
+              <div class="viewallItem_but_img">
+                <!-- <img src="" alt=""> -->
+              </div>
+              <div class="viewallItem_but_tit">
+                <div class="viewallItem_but_tit1">
+                  <div class="viewallItem_but_tit11">预约时间:</div>
+                  <div class="viewallItem_but_tit12">2020-12-14 13:30:00</div>
+                </div>
+                <div class="viewallItem_but_tit2">
+                  奥迪A6 2020款 1.8T 自动 豪华型
+                </div>
+                <div class="viewallItem_but_tit3">
+                  <div class="viewallItem_but_tit31">指导价格:</div>
+                  <div class="viewallItem_but_tit32">29.66~32.99万</div>
+                </div>
+              </div>
+            </div>
+            <div class="feedback" v-if="tabsIndex == 2">
+              <template v-if="isfj">
+                <div class="viewallItem_but_feedback" @click="isfankuiFun">
+                  <div class="viewallItem_but_feedback_p">查看试驾反馈</div>
+                  <!-- iconTop.png -->
+                  <div class="viewallItem_but_feedback_img">
+                    <!-- <img
+                    style="width: 100%; height: 100%"
+                    v-if="imageApi"
+                    :src="
+                      isfankui
+                        ? imageApi + '/iconBut.png'
+                        : imageApi + '/iconTop.png'
+                    "
+                    alt=""
+                  /> -->
+                  </div>
+                </div>
+                <div class="viewallItem_but_con" v-if="isfankui">
+                  <div class="viewallItem_but_con_img">
+                    <!-- <img
+                    style="width: 100%; height: 100%"
+                    v-if="imageApi"
+                    :src="imageApi + '/jzxd/veryNice_icon.png'"
+                    alt=""
+                  /> -->
+                  </div>
+                  <div class="viewallItem_but_con_p">满意</div>
+                  <div class="viewallItem_but_con_start">
+                    <div class="viewallItem_but_con_startXing">
+                      <div class="startXing_p">外观 :</div>
+                      <div class="startXing_xing">
+                        <statr-xing star="3"></statr-xing>
+                      </div>
+                    </div>
+                    <div class="viewallItem_but_con_startXing">
+                      <div class="startXing_p">内饰 :</div>
+                      <div class="startXing_xing">
+                        <statr-xing star="3"></statr-xing>
+                      </div>
+                    </div>
+                    <div class="viewallItem_but_con_startXing">
+                      <div class="startXing_p">性能 :</div>
+                      <div class="startXing_xing">
+                        <statr-xing star="5"></statr-xing>
+                      </div>
+                    </div>
+                    <div class="viewallItem_but_con_startXing">
+                      <div class="startXing_p">舒适度 :</div>
+                      <div class="startXing_xing">
+                        <statr-xing star="4"></statr-xing>
+                      </div>
+                    </div>
+                    <div class="viewallItem_but_con_startXing">
+                      <div class="startXing_p">实用性 :</div>
+                      <div class="startXing_xing">
+                        <statr-xing star="1"></statr-xing>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="viewallItem_but_con_tit">
+                    试驾反馈:试驾反馈信息试驾反馈信息试驾反馈信息试驾反馈信息试驾反馈信息试驾反馈信息试驾反馈信息试
+                  </div>
+                </div>
+              </template>
+              <template v-if="!isfj">
+                <div class="viewallItem_but_nofee">
+                  <span class="viewallItem_but_nofee_span">
+                    拒绝驾驶理由:
+                  </span>
+                  抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约
+                </div>
+              </template>
+            </div>
+          </div>
+        </div>
+        <div class="viewallItem">
+          <div
+            class="viewallItem_top"
+            :style="{ height: tabsIndex != 2 ? '226rpx' : '80rpx' }"
+          >
+            <div class="viewallItem_top_l_t viewallItem_top_l_tb">
+              <div class="viewallItem_top_l">
+                <div class="viewallItem_top_l_img">
+                  <!-- <img src="" alt="" /> -->
+                </div>
+                <div class="viewallItem_top_l_tit">
+                  <div class="viewallItem_top_l_titp">
+                    颤三<span class="level_icon" :style="colorObj[4]">{{
+                      levelval[4]
+                    }}</span>
+                  </div>
+                  <div>13280504044</div>
+                </div>
+              </div>
+              <div class="viewallItem_top_r">
+                <!-- <img
+                v-if="imageApi"
+                :src="imageApi + '/iconviewPhone.png'"
+                alt=""
+              /> -->
+              </div>
+            </div>
+            <div
+              class="viewallItem_top_l_b viewallItem_top_l_tb"
+              v-if="tabsIndex != 2"
+            >
+              <div class="viewallItem_top_l_b_tit">距离预约时间还有:</div>
+              <div class="viewallItem_top_l_b_time">
+                0天
+                <span class="viewallItem_top_l_b_timesty">00</span> :
+                <span class="viewallItem_top_l_b_timesty">00</span> :
+                <span class="viewallItem_top_l_b_timesty">00</span>
+              </div>
+              <div class="viewallItem_top_l_b_sh">
+                {{ tabsIndex ? "结束试驾" : "审核" }}
+              </div>
+            </div>
+          </div>
+          <div class="viewallItem_but">
+            <div class="viewallItem_but_top">
+              <div class="viewallItem_but_img">
+                <!-- <img src="" alt=""> -->
+              </div>
+              <div class="viewallItem_but_tit">
+                <div class="viewallItem_but_tit1">
+                  <div class="viewallItem_but_tit11">预约时间:</div>
+                  <div class="viewallItem_but_tit12">2020-12-14 13:30:00</div>
+                </div>
+                <div class="viewallItem_but_tit2">
+                  奥迪A6 2020款 1.8T 自动 豪华型
+                </div>
+                <div class="viewallItem_but_tit3">
+                  <div class="viewallItem_but_tit31">指导价格:</div>
+                  <div class="viewallItem_but_tit32">29.66~32.99万</div>
+                </div>
+              </div>
+            </div>
+            <div class="feedback" v-if="tabsIndex == 2">
+              <template v-if="isfj">
+                <div class="viewallItem_but_feedback" @click="isfankuiFun">
+                  <div class="viewallItem_but_feedback_p">查看试驾反馈</div>
+                  <!-- iconTop.png -->
+                  <div class="viewallItem_but_feedback_img">
+                    <!-- <img
+                    style="width: 100%; height: 100%"
+                    v-if="imageApi"
+                    :src="
+                      isfankui
+                        ? imageApi + '/iconBut.png'
+                        : imageApi + '/iconTop.png'
+                    "
+                    alt=""
+                  /> -->
+                  </div>
+                </div>
+                <div class="viewallItem_but_con" v-if="isfankui">
+                  <div class="viewallItem_but_con_img">
+                    <!-- <img
+                    style="width: 100%; height: 100%"
+                    v-if="imageApi"
+                    :src="imageApi + '/jzxd/veryNice_icon.png'"
+                    alt=""
+                  /> -->
+                  </div>
+                  <div class="viewallItem_but_con_p">满意</div>
+                  <div class="viewallItem_but_con_start">
+                    <div class="viewallItem_but_con_startXing">
+                      <div class="startXing_p">外观 :</div>
+                      <div class="startXing_xing">
+                        <statr-xing star="3"></statr-xing>
+                      </div>
+                    </div>
+                    <div class="viewallItem_but_con_startXing">
+                      <div class="startXing_p">内饰 :</div>
+                      <div class="startXing_xing">
+                        <statr-xing star="3"></statr-xing>
+                      </div>
+                    </div>
+                    <div class="viewallItem_but_con_startXing">
+                      <div class="startXing_p">性能 :</div>
+                      <div class="startXing_xing">
+                        <statr-xing star="5"></statr-xing>
+                      </div>
+                    </div>
+                    <div class="viewallItem_but_con_startXing">
+                      <div class="startXing_p">舒适度 :</div>
+                      <div class="startXing_xing">
+                        <statr-xing star="4"></statr-xing>
+                      </div>
+                    </div>
+                    <div class="viewallItem_but_con_startXing">
+                      <div class="startXing_p">实用性 :</div>
+                      <div class="startXing_xing">
+                        <statr-xing star="1"></statr-xing>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="viewallItem_but_con_tit">
+                    试驾反馈:试驾反馈信息试驾反馈信息试驾反馈信息试驾反馈信息试驾反馈信息试驾反馈信息试驾反馈信息试
+                  </div>
+                </div>
+              </template>
+              <template v-if="!isfj">
+                <div class="viewallItem_but_nofee">
+                  <span class="viewallItem_but_nofee_span">
+                    拒绝驾驶理由:
+                  </span>
+                  抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约
+                </div>
+              </template>
+            </div>
+          </div>
+        </div>
+        <div class="viewallItem">
+          <div
+            class="viewallItem_top"
+            :style="{ height: tabsIndex != 2 ? '226rpx' : '80rpx' }"
+          >
+            <div class="viewallItem_top_l_t viewallItem_top_l_tb">
+              <div class="viewallItem_top_l">
+                <div class="viewallItem_top_l_img">
+                  <!-- <img src="" alt="" /> -->
+                </div>
+                <div class="viewallItem_top_l_tit">
+                  <div class="viewallItem_top_l_titp">
+                    颤三<span class="level_icon" :style="colorObj[4]">{{
+                      levelval[4]
+                    }}</span>
+                  </div>
+                  <div>13280504044</div>
+                </div>
+              </div>
+              <div class="viewallItem_top_r">
+                <!-- <img
+                v-if="imageApi"
+                :src="imageApi + '/iconviewPhone.png'"
+                alt=""
+              /> -->
+              </div>
+            </div>
+            <div
+              class="viewallItem_top_l_b viewallItem_top_l_tb"
+              v-if="tabsIndex != 2"
+            >
+              <div class="viewallItem_top_l_b_tit">距离预约时间还有:</div>
+              <div class="viewallItem_top_l_b_time">
+                0天
+                <span class="viewallItem_top_l_b_timesty">00</span> :
+                <span class="viewallItem_top_l_b_timesty">00</span> :
+                <span class="viewallItem_top_l_b_timesty">00</span>
+              </div>
+              <div class="viewallItem_top_l_b_sh">
+                {{ tabsIndex ? "结束试驾" : "审核" }}
+              </div>
+            </div>
+          </div>
+          <div class="viewallItem_but">
+            <div class="viewallItem_but_top">
+              <div class="viewallItem_but_img">
+                <!-- <img src="" alt=""> -->
+              </div>
+              <div class="viewallItem_but_tit">
+                <div class="viewallItem_but_tit1">
+                  <div class="viewallItem_but_tit11">预约时间:</div>
+                  <div class="viewallItem_but_tit12">2020-12-14 13:30:00</div>
+                </div>
+                <div class="viewallItem_but_tit2">
+                  奥迪A6 2020款 1.8T 自动 豪华型
+                </div>
+                <div class="viewallItem_but_tit3">
+                  <div class="viewallItem_but_tit31">指导价格:</div>
+                  <div class="viewallItem_but_tit32">29.66~32.99万</div>
+                </div>
+              </div>
+            </div>
+            <div class="feedback" v-if="tabsIndex == 2">
+              <template v-if="isfj">
+                <div class="viewallItem_but_feedback" @click="isfankuiFun">
+                  <div class="viewallItem_but_feedback_p">查看试驾反馈</div>
+                  <!-- iconTop.png -->
+                  <div class="viewallItem_but_feedback_img">
+                    <!-- <img
+                    style="width: 100%; height: 100%"
+                    v-if="imageApi"
+                    :src="
+                      isfankui
+                        ? imageApi + '/iconBut.png'
+                        : imageApi + '/iconTop.png'
+                    "
+                    alt=""
+                  /> -->
+                  </div>
+                </div>
+                <div class="viewallItem_but_con" v-if="isfankui">
+                  <div class="viewallItem_but_con_img">
+                    <!-- <img
+                    style="width: 100%; height: 100%"
+                    v-if="imageApi"
+                    :src="imageApi + '/jzxd/veryNice_icon.png'"
+                    alt=""
+                  /> -->
+                  </div>
+                  <div class="viewallItem_but_con_p">满意</div>
+                  <div class="viewallItem_but_con_start">
+                    <div class="viewallItem_but_con_startXing">
+                      <div class="startXing_p">外观 :</div>
+                      <div class="startXing_xing">
+                        <statr-xing star="3"></statr-xing>
+                      </div>
+                    </div>
+                    <div class="viewallItem_but_con_startXing">
+                      <div class="startXing_p">内饰 :</div>
+                      <div class="startXing_xing">
+                        <statr-xing star="3"></statr-xing>
+                      </div>
+                    </div>
+                    <div class="viewallItem_but_con_startXing">
+                      <div class="startXing_p">性能 :</div>
+                      <div class="startXing_xing">
+                        <statr-xing star="5"></statr-xing>
+                      </div>
+                    </div>
+                    <div class="viewallItem_but_con_startXing">
+                      <div class="startXing_p">舒适度 :</div>
+                      <div class="startXing_xing">
+                        <statr-xing star="4"></statr-xing>
+                      </div>
+                    </div>
+                    <div class="viewallItem_but_con_startXing">
+                      <div class="startXing_p">实用性 :</div>
+                      <div class="startXing_xing">
+                        <statr-xing star="1"></statr-xing>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="viewallItem_but_con_tit">
+                    试驾反馈:试驾反馈信息试驾反馈信息试驾反馈信息试驾反馈信息试驾反馈信息试驾反馈信息试驾反馈信息试
+                  </div>
+                </div>
+              </template>
+              <template v-if="!isfj">
+                <div class="viewallItem_but_nofee">
+                  <span class="viewallItem_but_nofee_span">
+                    拒绝驾驶理由:
+                  </span>
+                  抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约抱歉当前时间试驾预约是约满，请另行预约
+                </div>
+              </template>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- 弹出框组件 -->
+    <show-modal
+      v-if="isShow"
+      :tabsIndex="tabsIndex"
+      :chengMode.sync="isShow"
+    ></show-modal>
   </div>
 </template>
 
@@ -156,16 +587,19 @@
 import { imageApi } from "../../../http/url";
 import countTime from "./js/showTime.js";
 import statrXing from "./components/statrXing.vue";
+import showModal from "./components/showModal.vue";
+
 export default {
   props: {
     dataListArr: {
       type: Object,
     },
   },
-  components: { statrXing },
+  components: { statrXing,showModal },
   data() {
     return {
       imageApi,
+      isShow:false,
       tabs: [
         {
           title: "待审核",
@@ -240,6 +674,12 @@ export default {
       }
       //   this.AjaxFun(item);
     },
+    //点击审核或者结束试驾
+    viewallItemClick(tabsIndex,item){
+      console.log(tabsIndex);
+      this.isShow=!this.isShow
+    },
+
     //反馈的隐藏显示
     isfankuiFun(){
       this.isfankui=!this.isfankui
@@ -360,7 +800,8 @@ export default {
   .allpendcomList {
     flex: 1;
     .viewallItem {
-      height: 426rpx;
+      // height: 426rpx;
+      min-height: 426rpx;
       margin-top: 40rpx;
       .viewallItem_top {
         height: 226rpx;
@@ -455,7 +896,7 @@ export default {
           font-weight: 500;
           margin-left: 18rpx;
           position: absolute;
-          top: 4px;
+          top: 8rpx;
         }
       }
       .viewallItem_but {
@@ -580,7 +1021,7 @@ export default {
         }
         .viewallItem_but_nofee {
           height: 70rpx;
-          border-top: 2rpx solid #F7F7FA;
+          border-top: 2rpx solid #f7f7fa;
           font-size: 22rpx;
           line-height: 70rpx;
           padding-left: 26rpx;
@@ -591,10 +1032,9 @@ export default {
           -webkit-line-clamp: 1;
           line-clamp: 1;
           -webkit-box-orient: vertical;
-          .viewallItem_but_nofee_span{
-            color: #1A1A1A;
+          .viewallItem_but_nofee_span {
+            color: #1a1a1a;
           }
-
         }
       }
     }
