@@ -87,7 +87,10 @@
         if (res.code === 0) {
           this.cars = res.data
         }
+
+  
       },
+
       clickModel (model) {
         this.checkedModel = model
         this.visitModel = true

@@ -23,7 +23,7 @@
               <div class="fangkuai"></div>
             </div>
             <div class="list_title_star">
-              到店后<span class="list_title_starsp">{{ list.day }}</span
+              到店后<span class="list_title_starsp">{{ list.ruleConfig }}</span
               >天未成交客户
             </div>
           </div>
@@ -34,7 +34,7 @@
               </div>
               姓名:
             </div>
-            <div class="list_all_sty">{{ list.useName }}</div>
+            <div class="list_all_sty">{{ list.userName }}</div>
           </div>
           <div class="list_all">
             <div class="list_all_yes">
@@ -43,7 +43,7 @@
               </div>
               电话:
             </div>
-            <div class="list_all_sty">{{ list.phone }}</div>
+            <div class="list_all_sty">{{ list.userPhone }}</div>
           </div>
           <div class="list_all">
             <div class="list_all_yes">
@@ -52,15 +52,15 @@
               </div>
               意向车型:
             </div>
-            <div class="list_all_sty">{{ list.modeot }}</div>
+            <div class="list_all_sty">{{ list.intentModel }}</div>
           </div>
 
           <div class="list_buttom">
-            <p>跟进方式： 打电话</p>
+            <p>跟进方式： {{followType?"打电话":""}}</p>
             <p>任务备注： 态度诚恳，注意措辞</p>
-            <p>上次到店时间： 2020.9.24 14:00</p>
-            <p>上次通话时间： 2020.9.26 15:00</p>
-            <p>任务类型： 回访任务_优惠通知_11天未成交客户</p>
+            <p>上次到店时间： {{ list.lastTime }}</p>
+            <p>上次通话时间：{{ list.lastCallTime || "" }}</p>
+            <p>任务类型： {{list.taskName}}</p>
           </div>
           <div class="list_yes_icon">
             <img :src="imageApi + '/yes.png'" alt="" />
@@ -99,13 +99,13 @@ export default {
           title: "到店回访",
           type: 2,
           isShow: false,
-          tips: 2,
+          tips: 0,
         },
         {
           title: "试驾回访",
           type: 3,
           isShow: false,
-          tips: 3,
+          tips: 0,
         },
         {
           title: "优惠通知",

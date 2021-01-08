@@ -3,7 +3,7 @@ var day = 0
 var hour = '00'
 var min = '00'
 var second = '00'
-export default function countTime (timeSrt) {
+function countTime (timeSrt) {
    
     // 获取当前时间
     let date = new Date()
@@ -43,11 +43,20 @@ export default function countTime (timeSrt) {
       setTimeout(countTime, 1000)
     
     }
-    let countTimes={
-        day,
-        hour,
-        min,
-        second
-    }
-    return countTimes
+
+    return {  day,
+      hour,
+      min,
+      second}
+  }
+
+  export default function countTimeFun(ck,t){
+    setInterval((t)=>{
+      let x = countTime(t);  
+      // console.log(x); 
+      ck(x)
+    },
+    1000,
+    t
+    )
   }

@@ -8,7 +8,8 @@ const mutations = {
     state.carModel = data;
   },
   setCar (state, data) {
-    state.styleFullName = data.styleFullName||''
+    // console.log(data,"setCarModelsetCarModelsetCarModel");
+    state.styleFullName = data.modelName||''
     state.car = data;
   },
 

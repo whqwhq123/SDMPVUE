@@ -1,32 +1,44 @@
 <template>
   <div class="dialog_content">
-    <div class="title">
-      <div class="meet_gift">{{shareProps.defaulTtitle}}</div>
+     <div style="width:100% ;height: 1548rpx;position: absolute;left: 0;top: 0;z-index: -1;"><img style="width: 100%; height: 100%;" v-if="imageApi" :src="imageApi+'/iconshareDialog.png'" alt class="close_img" @click="close" /></div>
+      <div class="title">
       <img v-if="imageApi" :src="imageApi+'/new_close.png'" alt class="close_img" @click="close" />
     </div>
-    <div class="msg">{{shareProps.title}}</div>
+    <div class="msg">欢迎光临</div>
     <div class="code_content">
-      <img class="code_img" :src="shareProps.codeImgUrl" alt />
+      <img class="code_img" :src="base64Img" alt />
     </div>
-    <div class="share" @click="shareFirends">
-      <img v-if="imageApi" :src="imageApi+'/weChart.png'" alt class="weChart" />
-      <div class="give_friend">发给朋友</div>
+    <!-- @click="shareFirends" -->
+    <div class="share" >
+      <div class="give_friend">请进行扫码登记</div>
     </div>
+
   </div>
 </template>
 
 <script>
-import { imageApi } from "../../http/url";
+import { imageApi ,loginApi} from "../../http/url";
+import { mapActions, mapGetters, mapMutations } from "vuex";
+
 export default {
   props:['shareProps'],
   data() {
     return {
       imageApi,
-      dialogObj:{}
+      dialogObj:{},
+      base64Img:""
     }
   },
   mounted(){
   console.log(this.shareProps, '传递的参数')
+  console.log(this.userInfo,'销售userInfo');
+
+   this.getAjax()
+  },
+  computed: {
+    ...mapGetters({
+      userInfo: "userInfo",
+    }),
   },
   methods: {
     close() {
@@ -34,6 +46,34 @@ export default {
     },
     shareFirends(){
       this.$emit("shareFirends", true)
+    },
+    getAjax(){
+
+      let token = wx.getStorageSync("token");
+      let request = wx.request({
+        url:
+          loginApi+"saasAdmin/weixin/qr.jpg",
+        data: {
+          body:this.userInfo.foursId,
+          type:"salesman_4"
+        },
+        header: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          token: token,
+        },
+        method: "GET",
+        dataType: "json",
+        responseType: "arraybuffer",
+        success: (res) => {
+
+            let base64 = wx.arrayBufferToBase64(res.data); 
+            this.base64Img= 'data:image/jpeg;base64,' + base64　
+            
+        },
+        fail: () => {},
+        complete: () => {},
+      });
+
     }
   }
 }
@@ -41,26 +81,31 @@ export default {
 
 <style lang="scss" scoped>
 .dialog_content {
-  position: fixed;
-  top: 0;
-  background: #ffffff;
-  width: 100%;
-  height: 100%;
-  z-index: 999;
-  padding: 60rpx 40rpx;
-  box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    background: #BB0A30;
+    width: 100%;
+    height: 1280rpx;
+    z-index: 999;
+
   .title {
     display: flex;
     justify-content: space-between;
+    position: absolute;
+    right: 40rpx;
+    top: 28rpx;
   }
   .code_img {
-    width: 306rpx;
-    height: 312rpx;
-    vertical-align: middle;
-    margin-top: 120rpx;
+ width: 100%;
+  height: 100%;
+
   }
   .code_content {
-    text-align: center;
+     width: 306rpx;
+    height: 312rpx;
+    position: absolute;
+    right: 222rpx;
+    top: 275rpx;
   }
   .close_img {
     width: 64rpx;
@@ -68,29 +113,28 @@ export default {
     margin-bottom: 10rpx;
     // background: #000000;
     // opacity: 0.5;
-    border-radius: 50%;
+
   }
   .meet_gift {
     color: #1a1a1a;
     font-size: 54rpx;
-    font-family: Source Han Sans CN;
     font-weight: bold;
   }
   .msg {
-    color: #767676;
-    font-size: 30rpx;
-    font-family: Source Han Sans CN;
-    font-weight: 400;
-    margin-top: 40rpx;
+     color: #fcf9f9;
+    font-size: 60rpx;
+    position: absolute;
+    left: 88rpx;
+    font-weight: bold;
+    top: 96rpx;
+
   }
   .share {
-    width: 670rpx;
-    height: 160rpx;
-    background: rgba(247, 247, 250, 1);
     border-radius: 16rpx;
     text-align: center;
-    // line-height: 160rpx;
-    margin-top: 120rpx;
+    position: absolute;
+    right: 245rpx;
+    top: 660rpx;
   }
   .weChart {
     height: 80rpx;
@@ -99,9 +143,10 @@ export default {
     margin-top: 20rpx;
   }
   .give_friend {
-    font-size: 26rpx;
+    font-size: 40rpx;
     font-family: Source Han Sans CN;
-    font-weight: 400;
+    font-weight: 500;
+    color: #FFFFFF;
   }
 }
 </style>

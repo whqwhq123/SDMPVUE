@@ -604,16 +604,17 @@
         /**
         * 车型相关
         * */
-        let { styleFullName = '',styleName = '', styleYear = '', styleId = '', msrp = null  } = car
-        let { carName: modelName = '', getCarNameId = '', imgUrl = ''} = carModel
+        let { modelName = '',styleName = '', carYear = '', styleId = '', msrp = null  } = car
+        console.log(car,"dayinshuj ");
+        let { carName: modelNames = '', getCarNameId = '', imgUrl = ''} = carModel
         let { phone = '', userName = '' } = this.$root.$mp.query  // 其他页面跳入传参
-        this.defParams.styleFullName = styleFullName
+        this.defParams.styleFullName = modelName
         this.defParams.styleName = styleName
-        this.defParams.styleYear = styleYear
+        this.defParams.styleYear = carYear
         this.defParams.styleId = styleId
 
         if (this.beenPage === 'selectCar') {
-          this.defParams.modelName = modelName
+          this.defParams.modelName = modelNames
           this.defParams.carTypePic = imgUrl
           this.defParams.modelId = getCarNameId
           /**

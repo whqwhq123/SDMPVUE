@@ -18,7 +18,8 @@
           <swiper-item class="detail_scope">
             <div class="detail_scope">
               <div class="title_dis">
-                您当前有<span class="title_span">89</span>个待处理的任务
+                您当前有<span class="title_span">{{ total }}</span
+                >个待处理的任务
               </div>
               <div class="price_note">
                 <!-- <div class="line"></div> -->
@@ -28,14 +29,15 @@
                     v-if="imageApi"
                   ></cover-image> -->
                   <cover-image
-                    src="../rapidTaskmgr/image/rapidTaskmgr.png"
-
+                    v-if="imageApi"
+                    :src="imageApi + '/rapidTaskmgr.png'"
                   ></cover-image>
                 </div>
                 <div class="openShare" @click="taskClick">立即处理</div>
               </div>
             </div>
           </swiper-item>
+          
         </block>
       </swiper>
     </div>
@@ -53,26 +55,48 @@ export default {
       priceData: [],
       activeIndex: 0,
       imageApi,
+      total: 0,
     };
   },
+  computed: {
+    ...mapGetters(["userInfo"]),
+  },
   methods: {
-
     chageIndex(val) {
       this.activeIndex = val.mp.detail.current;
     },
     // 立即处理跳转
-    taskClick(){
-        mpvue.navigateTo({
-        url:'/pages/generalSale/rapidTaskmgr/main'
-        })
+    taskClick() {
+      mpvue.navigateTo({
+        url: "/pages/generalSale/rapidTaskmgr/main",
+      });
     },
-
+      taskMgrAjx(){
+    let token = wx.getStorageSync("token");
+    // console.log(token,this.userInfo.foursId);
+    let request = wx.request({
+      url: "http://10.20.0.210:7030/saasAdmin/task/list",
+      data: {
+        foursId: 3,
+        visitStatus: "1",
+      },
+      header: { "Content-Type": "application/x-www-form-urlencoded", 'token': token },
+      method: "POST",
+      dataType: "json",
+      responseType: "text",
+      success: (res) => {
+        this.total = res.data.data.total;
+      },
+    });
   },
-  onLoad() {
+  },
 
+  onLoad() {
+this.taskMgrAjx()
   },
   onShow() {
     // this.getCarInfo();
+    this.taskMgrAjx()
   },
 };
 </script>
@@ -132,9 +156,9 @@ export default {
         align-items: center;
         margin-left: 26rpx;
         font-weight: bold;
-        font-family:'SourceHanSansCN-Medium';   
+        font-family: "SourceHanSansCN-Medium";
         .title_span {
-          font-family:'SourceHanSansCN-Medium'; 
+          font-family: "SourceHanSansCN-Medium";
           font-size: 50rpx;
           color: #bb0a30;
           margin-bottom: 1rpx;

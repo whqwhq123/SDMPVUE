@@ -1,9 +1,15 @@
 <template>
   <div class="user_main">
     <div class="top_serach">
-      <div :class="[flag?'default':'changeWidth']">
+      <div :class="[flag ? 'default' : 'changeWidth']">
         <navigator url="./search/main">
-          <img v-if="imageApi"  :src="imageApi+'/search.png'" alt class="search_icon" @click="searchFun" />
+          <img
+            v-if="imageApi"
+            :src="imageApi + '/search.png'"
+            alt
+            class="search_icon"
+            @click="searchFun"
+          />
         </navigator>
         <input
           type="number"
@@ -14,7 +20,13 @@
           maxlength="11"
           @focus="changeStyle"
         />
-        <img v-if="imageApi" :src="imageApi+'/close.png'" alt class="close_icon" @click="clearFun" />
+        <img
+          v-if="imageApi"
+          :src="imageApi + '/close.png'"
+          alt
+          class="close_icon"
+          @click="clearFun"
+        />
         <span class="cache" @click="cancle" v-if="!flag">取消</span>
       </div>
       <div class="left_add" @click="addData" v-if="flag">
@@ -30,115 +42,142 @@
       <!-- <dialogAdd @close='closeFun' v-if="Closeflag"></dialogAdd> -->
     </div>
     <div>
-      <div :class="[statsu?'navbar':'default_nav']">
+      <div :class="[statsu ? 'navbar' : 'default_nav']">
         <div class="tabs_content">
-          <block v-for="(item,index) in tabs" :key="index">
+          <block v-for="(item, index) in tabs" :key="index">
             <div
               :id="index"
-              :class="{'navbar_item_on':activeIndex == index}"
+              :class="{ navbar_item_on: activeIndex == index }"
               class="navbar_item"
               @click="tabClick"
               v-if="statsu"
             >
-              <div class="navbar_title">{{item.name}}</div>
+              <div class="navbar_title">{{ item.name }}</div>
             </div>
           </block>
         </div>
-        <div style="margin-bottom:14rpx;">
+        <div style="margin-bottom: 14rpx">
           <img
             class="erweima"
             v-if="imageApi"
-            :src="imageApi+ '/erweima.png'"
+            :src="imageApi + '/erweima.png'"
             alt
-            style="width: 48rpx;height: 48rpx;vertical-align: middle;"
+            style="width: 48rpx; height: 48rpx; vertical-align: middle"
             @click="openDialog"
           />
         </div>
         <div class="navbar_slider" :class="navbarSliderClass"></div>
       </div>
       <swiper
-        :class="[statsu?'content':'contnt_main']"
+        :class="[statsu ? 'content' : 'contnt_main']"
         :duration="50"
         @change="swiperChange"
         :current="currentTab"
         @animationfinish="onAnimationfinish"
-        v-if="listsData.length>0"
+        v-if="listsData.length > 0"
       >
-        <swiper-item v-for="(item,index) in tabs" :key="index">
-          <scroll-view scroll-y style="height:82vh;" @scrolltolower="pullData">
-            <div :class="[statsu?'list_scope':'list_conten_scop','list_content']">
+        <swiper-item v-for="(item, index) in tabs" :key="index">
+          <scroll-view scroll-y style="height: 82vh" @scrolltolower="pullData">
+            <div
+              :class="[
+                statsu ? 'list_scope' : 'list_conten_scop',
+                'list_content',
+              ]"
+            >
               <div
                 class="list"
-                v-for="(item,ind) in listsData"
+                v-for="(item, ind) in listsData"
                 :key="ind"
                 @click="lookDetail(item)"
               >
                 <div class="user_info">
                   <div class="user_icon">
-                    <img :src="imageApi+'/header-man.png'" alt class="header_img" />
+                    <img
+                      :src="imageApi + '/header-man.png'"
+                      alt
+                      class="header_img"
+                    />
                     <img
                       v-if="item.proxyStatus == 1"
-                      :src="imageApi+'/jzxd/spokesman-customer.png'"
+                      :src="imageApi + '/jzxd/spokesman-customer.png'"
                       alt
                       class="spokesman_img"
                     />
                   </div>
                   <div class="user_detail_msg">
-                    <div style="display:flex;align-items: center;">
-                      <span style="display:block;min-width:260rpx" v-if="item.name">
-                        <span class="user_name">{{item.name}}</span>
+                    <div style="display: flex; align-items: center">
+                      <span
+                        style="display: block; min-width: 260rpx"
+                        v-if="item.name"
+                      >
+                        <span class="user_name">{{ item.name }}</span>
                         <span class="phone_num">
                           <span
                             :class="[search.length > 5 ? 'phone_num_red' : '']"
-                          >{{item.showPhone[0] ||''}}</span>
-                          <span>{{item.showPhone[1]||''}}</span>
+                            >{{ item.showPhone[0] || "" }}</span
+                          >
+                          <span>{{ item.showPhone[1] || "" }}</span>
                         </span>
                       </span>
-                      <span style="display:block;width:180rpx" v-else>
+                      <span style="display: block; width: 180rpx" v-else>
                         <span class="phone_num">
                           <span
                             :class="[search.length > 5 ? 'phone_num_red' : '']"
-                          >{{item.showPhone[0] ||''}}</span>
-                          <span>{{item.showPhone[1]||''}}</span>
+                            >{{ item.showPhone[0] || "" }}</span
+                          >
+                          <span>{{ item.showPhone[1] || "" }}</span>
                         </span>
                       </span>
                       <span
-                        :class="['badge' ,levlColor[item.cusLevel]]"
+                        :class="['badge', levlColor[item.cusLevel]]"
                         v-if="levelVal[item.cusLevel]"
-                      >{{levelVal[item.cusLevel]}}</span>
-                      <span class="upadte_time" v-if="index==0">{{item.createTime}}</span>
+                        >{{ levelVal[item.cusLevel] }}</span
+                      >
+                      <span class="upadte_time" v-if="index == 0">{{
+                        item.createTime
+                      }}</span>
                     </div>
-                    <div
-                      style="display:flex;align-items: center;margin:14rpx 0; justify-content: space-between;"
-                    >
-                      <div style="display:flex">
-                        <div class="label" v-if="item.createSource=='邀约到店' && item.appointmentTime">
-                          <span>{{item.createSource}}</span>
-                          <span>{{item.tT}}</span>
-                          <span>{{item.sT}}</span>
+                    <div style="display: flex;=align-items: center;=margin: 14rpx 0;=justify-content: space-between;">
+                      <div style="display: flex;flex:1;">
+                        <div
+                          class="label"
+                          v-if="item.createSource == '邀约到店' && item.appointmentTime">
+                          <span>{{ item.createSource }}</span>
+                          <span>{{ item.tT }}</span>
+                          <span>{{ item.sT }}</span>
                         </div>
-                        <div class="label liuZi" v-if="item.createSource=='小程序留资'">
-                          <span>{{item.createSource}}</span>
+                        <div
+                          class="label liuZi"
+                          v-if="item.createSource == '小程序留资'"
+                        >
+                          <span>{{ item.createSource }}</span>
                         </div>
-                        <div class="car_series" v-if="item.carType">{{item.carType}}</div>
+                        <div class="car_series" v-if="item.carType">
+                          {{ item.carType }}
+                        </div>
                       </div>
 
                       <div
-                        v-if="index==0"
-                        :class="[activeIndex==1?'default_avtive':'','fenpei_sell']"
+                        v-if="index == 0"
+                        :class="[
+                          activeIndex == 1 ? 'default_avtive' : '',
+                          'fenpei_sell',
+                        ]"
                         @click="appointSale(item)"
-                      >分配销售</div>
+                      >
+                        分配销售
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div class="right_time"  v-if="index==1">
+                <div class="right_time" v-if="index == 1">
                   <div class="line_sale">
                     <span class="sale_name">销售顾问</span>
                     <span class="sale_name">接待时间</span>
                   </div>
                   <div class="line_sale">
-                    <span class="sale_full">{{item.salesmanName||''}}</span>
-                    <span class="sale_name">{{item.createTime}}</span>
+                    <span class="sale_full">{{ item.salesmanName || "" }}</span>
+                    <span class="sale_name">{{ item.createTime }}</span>
                   </div>
                 </div>
               </div>
@@ -147,49 +186,65 @@
         </swiper-item>
       </swiper>
       <div class="img_scope" v-else>
-        <img :src="imageApi+'/user_default.png'" alt />
+        <img :src="imageApi + '/user_default.png'" alt />
         <span class="default_size">暂无客户信息</span>
       </div>
     </div>
 
     <!-- 分享 -->
     <!-- <tab_bar :selected="2"></tab_bar> -->
-    <share-dialog :shareProps="shareProps" @handleClose="handleClose" @shareFirends="shareFirends" v-if="closeDialog"  />
+    <share-dialog
+      :shareProps="shareProps"
+      @handleClose="handleClose"
+      @shareFirends="shareFirends"
+      v-if="closeDialog"
+    />
+    <!-- 弹出框 -->
+    <customer-modal
+      v-if="isShow"
+      :rowData="rowData"
+      :tabsIndex="tabsIndex"
+      :dataItem="dataItem"
+      :chengMode.sync="isShow"
+    ></customer-modal>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import { formatDay } from "../../../../utils";
 import { fenxiang } from "../../../../utils";
 import { formateTtime } from "../../../../utils";
 import { formateSTime } from "../../../../utils";
 import { formateTS } from "../../../../utils";
 // import dialogAdd from './addData/index';
-import { imageApi } from "../../../../http/url";
+import { imageApi,loginApi } from "../../../../http/url";
 // import tab_bar from '../../components/tabBar'
+import customerModal from "../components/customerModal";
 
-import ShareDialog from '../../../../components/shareDialog'
+import ShareDialog from "../../../../components/shareDialog";
 export default {
   components: {
-    ShareDialog
+    ShareDialog,
+    customerModal,
     //   dialogAdd,
     //   tab_bar
   },
   data() {
     return {
       imageApi,
-      search: '',
+      search: "",
+      isShow: false,
       tabs: [
         {
           name: "待分配",
           type: "3",
-          checked: true
+          checked: true,
         },
         {
           name: "已分配",
           type: "2",
-          checked: true
+          checked: true,
         },
       ],
       activeIndex: 0,
@@ -199,15 +254,16 @@ export default {
       dataList: [],
       flag: true,
       statsu: true,
-      tradeStatus: '3',
-      defalutName: '',
+      tradeStatus: "3",
+      defalutName: "",
       // ----未分配
       pageNo: 0,
       pageSize: 10,
       listsData: [],
       taotal: null,
+      rowData: {},
       // 已分配
-       alreadyPageNo: 0,
+      alreadyPageNo: 0,
       alreadyPageSize: 10,
       alreadyListsData: [],
       alreadyTaotal: null,
@@ -215,42 +271,44 @@ export default {
       Closeflag: false,
       closeDialog: false,
       levlColor: {
-        '1': 'badge_h',
-        '2': 'badge_a',
-        '3': 'badge_b',
-        '4': 'badge_c',
-        '5': 'badge_i',
-        '6': 'badge_l'
+        1: "badge_h",
+        2: "badge_a",
+        3: "badge_b",
+        4: "badge_c",
+        5: "badge_i",
+        6: "badge_l",
       },
       levelVal: {
-        '1': 'H',
-        '2': 'A',
-        '3': 'B',
-        '4': 'C',
-        '5': '',
-        '6': ''
+        1: "H",
+        2: "A",
+        3: "B",
+        4: "C",
+        5: "",
+        6: "",
       },
       colorList: {
-        '003': 'bade_title',
-        '004': 'bade_title',
-        '006': 'bade_title',
-        '007': 'bade_title',
-        '008': 'bade_title',
-        '005': 'bade_label_l3',
-        '009': 'bade_label_l3',
-        '010': 'bade_label_l3',
-        '011': 'bade_label_l3',
-        '001': '',
-        '002': '',
-        '012': ''
+        "003": "bade_title",
+        "004": "bade_title",
+        "006": "bade_title",
+        "007": "bade_title",
+        "008": "bade_title",
+        "005": "bade_label_l3",
+        "009": "bade_label_l3",
+        "010": "bade_label_l3",
+        "011": "bade_label_l3",
+        "001": "",
+        "002": "",
+        "012": "",
       },
       imageUrl: "",
-      shareProps:{
-        defaulTtitle:'见面礼',
-        title:'将您的专属二维码或链接发给您的客户',
-        codeImgUrl:''
-      }
-    }
+      dataItem: {},
+      shareProps: {
+        defaulTtitle: "见面礼",
+        title: "将您的专属二维码或链接发给您的客户",
+        codeImgUrl: "",
+      },
+      sharePropsItem:{}
+    };
   },
   computed: {
     navbarSliderClass() {
@@ -271,80 +329,86 @@ export default {
       return this.winHeight + "px";
     },
     time() {
-      return new Date().getTime()
+      return new Date().getTime();
     },
     ...mapGetters({
-      'userInfo': 'userInfo',
-      'vi': 'vi',
-    })
+      userInfo: "userInfo",
+      vi: "vi",
+    }),
   },
   watch: {
     search(v) {
       if (v.length > 5) {
-          this.searchData();  
+        this.searchData();
       }
-    }
+    },
   },
   methods: {
     ...mapMutations({
-      'getCarList': 'user/getCarList',
-
+      getCarList: "user/getCarList",
     }),
     ...mapActions({
-      'getUserList': 'user/getSaleOpList',
-      'getCarSeries': 'user/getCarSeries',
-      'getImageInfo': 'recommendActivity/getImageInfo',
-      "getAlreadyList":"user/getAlreadyList"
-
-
+      getUserList: "user/getSaleOpList",
+      getCarSeries: "user/getCarSeries",
+      getImageInfo: "recommendActivity/getImageInfo",
+      getAlreadyList: "user/getAlreadyList",
     }),
-    handleClose(value){
-      console.log('21345665432', value)
-      this.closeDialog=value;
+    handleClose(value) {
+      console.log("21345665432", value);
+      this.closeDialog = value;
     },
-        /**
-   * 跳转留资小程序
-   * @param scene  4S店 类型 销售ID 报价单ID
-   * */
+    /**
+     * 跳转留资小程序
+     * @param scene  4S店 类型 销售ID 报价单ID
+     * */
     shareFirends(value) {
       const that = this;
-      // 直接跳转到c端见面礼 
+      // 直接跳转到c端见面礼
       // foursId ,   type 1 // 报价单， 2 // 名片 3 // 活动， salesmanId // 销售ID   activityId // 活动Id
       // let params = [this.userInfo.foursId, 3, this.userInfo.userId].join()
-       let params = [that.userInfo.foursId, 11].join()
+      let params = [that.userInfo.foursId, 11].join();
       mpvue.navigateToMiniProgram({
-        appId: 'wxb531f813eaa2c2ea',
-        path: '/pages/sell/index?scene=' + params,
+        appId: "wxb531f813eaa2c2ea",
+        path: "/pages/sell/index?scene=" + params,
         // envVersion: 'trial',
         success(res) {
-          console.log('跳转c端销售落地页', res)
-        }
-      })
+          console.log("跳转c端销售落地页", res);
+        },
+      });
     },
     async openDialog() {
-      
-      let bodyParm = [this.userInfo.foursId, 11,'','','',5].join()
+      let bodyParm = [this.userInfo.foursId, 11, "", "", "", 5].join();
       let params = {
         body: bodyParm,
-        type: 'salesman_4'
-      }
-      let res = await this.getImageInfo(params)
-      this.shareProps={
-        ... this.shareProps,
-        codeImgUrl:res
-      }
-      this.imageUrl = res
-      this.closeDialog = true
+        type: "salesman_4",
+      };
+      let res = await this.getImageInfo(params);
+      this.shareProps = {
+        ...this.shareProps,
+        codeImgUrl: res,
+      };
+      this.imageUrl = res;
+      this.closeDialog = true;
     },
     async getCar() {
-      let res = await this.getCarSeries({ manuId: this.userInfo.manuId, foursId: this.userInfo.foursId, pageNum: 1, numPerPage: 1000 });
-      this.getCarList(res.data)
-
+      let res = await this.getCarSeries({
+        manuId: this.userInfo.manuId,
+        foursId: this.userInfo.foursId,
+        pageNum: 1,
+        numPerPage: 1000,
+      });
+      this.getCarList(res.data);
     },
 
     //获取用户信息
     async getList() {
-      let res = await this.getUserList({ foursId: this.userInfo.foursId, phone: this.search, tradeStatus: this.tradeStatus, pageNo: ++this.pageNo, pageSize: this.pageSize });
+      let res = await this.getUserList({
+        foursId: this.userInfo.foursId,
+        phone: this.search,
+        tradeStatus: this.tradeStatus,
+        pageNo: ++this.pageNo,
+        pageSize: this.pageSize,
+      });
       this.taotal = res.data.totalCount;
       if (res.data.recordList.length == 0) {
         // wx.showToast({
@@ -355,66 +419,55 @@ export default {
       }
       var newList = this.dataList.concat(res.data.recordList);
       this.dataList = newList;
-      this.listsData = newList.map((v => {
+      this.listsData = newList.map((v) => {
         return {
           ...v,
           createTime: formateTS(v.createTime),
           tT: formateTtime(v.appointmentTime),
-          sT: formateSTime(v.appointmentTime)
-        }
-      }))
-      console.log()
+          sT: formateSTime(v.appointmentTime),
+        };
+      });
+      console.log();
     },
     async searchData() {
-      if(this.currentTab==0) {
+      if (this.currentTab == 0) {
         // 待分配
-        let res = await this.getUserList({ foursId: this.userInfo.foursId, salesman: this.userInfo.userId, phone: this.search, tradeStatus: this.tradeStatus, pageNo: 1, pageSize: 100 });
+        let res = await this.getUserList({
+          foursId: this.userInfo.foursId,
+          salesman: this.userInfo.userId,
+          phone: this.search,
+          tradeStatus: this.tradeStatus,
+          pageNo: 1,
+          pageSize: 100,
+        });
         this.listsData = res.data.recordList;
-        this.listsData = this.listsData.map((v => {
+        this.listsData = this.listsData.map((v) => {
           return {
             ...v,
             createTime: formateTS(v.createTime),
             tT: formateTtime(v.appointmentTime),
-            sT: formateSTime(v.appointmentTime)
-          }
-        }))
-
+            sT: formateSTime(v.appointmentTime),
+          };
+        });
       } else {
         // 已分配
         const result = await this.getAlreadyList({
           foursId: this.userInfo.foursId,
           phone: this.search,
-          pageNo:1,
-          pageSize:100
-        })
+          pageNo: 1,
+          pageSize: 100,
+        });
 
-         this.listsData = res.data.recordList;
-        this.listsData = this.listsData.map((v => {
+        this.listsData = res.data.recordList;
+        this.listsData = this.listsData.map((v) => {
           return {
             ...v,
             createTime: formateTS(v.createTime),
             tT: formateTtime(v.appointmentTime),
-            sT: formateSTime(v.appointmentTime)
-          }
-        }))
+            sT: formateSTime(v.appointmentTime),
+          };
+        });
       }
-      
-      // this.taotal=res.data.recordList.length;
-      // if (res.data.recordList.length==0){
-      //     // wx.showToast({
-      //     //     title: '暂无更多数据',
-      //     //     icon: 'none',
-      //     // })
-      // return;
-      // }
-      // var newList =this.dataList.concat(res.data.recordList);
-      // this.dataList=newList;
-      // this.listsData=newList.map((v=>{
-      //     return {
-      //         ...v,
-      //         updateTime:formatDay(v.updateTime)
-      //     }
-      // }))
     },
     searchFun() {
       // wx.navigateTo({
@@ -426,12 +479,12 @@ export default {
     pullData() {
       if (this.taotal == this.dataList.length) {
         wx.showToast({
-          title: '暂无更多数据',
-          icon: 'none',
-        })
+          title: "暂无更多数据",
+          icon: "none",
+        });
         return;
       }
-      if(this.currentTab==0){
+      if (this.currentTab == 0) {
         this.getList();
       } else {
         this.getAlreadyDistributionList();
@@ -448,115 +501,146 @@ export default {
       this.flag = true;
       this.statsu = true;
       this.pageNo = 0;
-      this.alreadyPageNo=0;
-      this.search = '';
+      this.alreadyPageNo = 0;
+      this.search = "";
       this.dataList = [];
       this.listsData = [];
       // console.log(this.phone);
-      this.getList()
+      this.getList();
     },
     clearFun() {
-      this.search = '';
-      this.getList()
-     
+      this.search = "";
+      this.getList();
     },
     addData() {
-      console.log('aa')
+      console.log("aa");
       wx.navigateTo({
-        url: '/pages/user/addData/main'
-      })
+        url: "/pages/user/addData/main",
+      });
       // this.Closeflag=true
     },
     tabClick(e) {
       this.activeIndex = e.currentTarget.id;
       this.currentTab = this.activeIndex;
       this.pageNo = 0;
-      this.alreadyPageNo=0;
+      this.alreadyPageNo = 0;
       this.dataList = [];
       this.listsData = [];
       if (this.activeIndex == 0) {
         // 待分配
-        this.tradeStatus = '3';
-        this.getList()
-      } else { // 已分配
-        this.tradeStatus = this.tabs[this.activeIndex].type
+        this.tradeStatus = "3";
+        this.getList();
+      } else {
+        // 已分配
+        this.tradeStatus = this.tabs[this.activeIndex].type;
         this.getAlreadyDistributionList();
       }
-      
     },
     swiperChange(e) {
       this.currentTab = e.mp.detail.current;
-  
+
       this.activeIndex = this.currentTab;
       this.pageNo = 0;
-      this.alreadyPageNo=0;
+      this.alreadyPageNo = 0;
       this.dataList = [];
       this.listsData = [];
       if (this.activeIndex == 0) {
-        this.tradeStatus = '3'
-        this.getList()
+        this.tradeStatus = "3";
+        this.getList();
       } else {
         this.tradeStatus = this.tabs[this.activeIndex].type;
         this.getAlreadyDistributionList();
       }
-      
-
     },
-    onAnimationfinish() {
-    },
+    onAnimationfinish() {},
     lookDetail(val) {
       // wx.navigateTo({
       //     url:'../user/customerMsg/main?option='+JSON.stringify(val)
       // })
     },
     appointSale(row) {
-      wx.navigateTo({
-        url: '/pages/app/allocationCustomer/appointSale/main?uqlId=' + row.uqlId+'&phone='+row.phone+'&cusLevel='+row.cusLevel+'&foursId='+row.foursId
-      })
+      this.isShow = true;
+      console.log(row);
+      this.rowData = row;
+      // wx.navigateTo({
+      //   url: '/pages/app/allocationCustomer/appointSale/main?uqlId=' + row.uqlId+'&phone='+row.phone+'&cusLevel='+row.cusLevel+'&foursId='+row.foursId
+      // })
+      this.getFoursArriveInfoByPhoneFun({
+        phone: row.phone,
+        foursId: row.foursId,
+      });
     },
-    async getAlreadyDistributionList(){
-    let params= {
-      foursId: this.userInfo.foursId,
-      phone: '',
-      pageNo:++this.alreadyPageNo,
-      pageSize:this.alreadyPageSize
-    }
-    const res =await this.getAlreadyList(params);
-    console.log(res)
-    const {code, data}=res
-    if(code===0) {
-       this.taotal = res.data.totalCount;
-      if (res.data.recordList.length == 0) {
-        // wx.showToast({
-        //     title: '暂无更多数据',
-        //     icon: 'none',
-        // })
-        return;
-      }
-      var newList = this.dataList.concat(res.data.recordList);
-      this.dataList = newList;
-      this.listsData = newList.map((v => {
-        return {
-          ...v,
-          // createTime: formateTS(v.createTime),
-          tT: formateTtime(v.appointmentTime),
-          sT: formateSTime(v.appointmentTime)
+
+    //请求根据手机号获取接待信息
+    getFoursArriveInfoByPhoneFun(data) {
+      let token = wx.getStorageSync("token");
+      let request = wx.request({
+        url:
+          loginApi+"salesman/foursArriveInfo/getFoursArriveInfoByPhone",
+        data: data,
+        header: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        
+          token: token,
+        },
+        method: "POST",
+        dataType: "json",
+        responseType: "text",
+        success: (res) => {
+          if (res.data.code == 0) {
+            this.dataItem = res.data.data;
+            console.log(res.data.data);
+          }
+        },
+        fail: () => {},
+        complete: () => {},
+      });
+    },
+
+    async getAlreadyDistributionList() {
+      let params = {
+        foursId: this.userInfo.foursId,
+        phone: "",
+        pageNo: ++this.alreadyPageNo,
+        pageSize: this.alreadyPageSize,
+      };
+      const res = await this.getAlreadyList(params);
+      console.log(res);
+      const { code, data } = res;
+      if (code === 0) {
+        this.taotal = res.data.totalCount;
+        if (res.data.recordList.length == 0) {
+          // wx.showToast({
+          //     title: '暂无更多数据',
+          //     icon: 'none',
+          // })
+          return;
         }
-      }))
-    }
-  }
+        var newList = this.dataList.concat(res.data.recordList);
+        this.dataList = newList;
+        this.listsData = newList.map((v) => {
+          return {
+            ...v,
+            // createTime: formateTS(v.createTime),
+            tT: formateTtime(v.appointmentTime),
+            sT: formateSTime(v.appointmentTime),
+          };
+        });
+      }
+    },
   },
-  onPageScroll: function (e) { // 获取滚动条当前位置
+  onPageScroll: function (e) {
+    // 获取滚动条当前位置
   },
   onShareAppMessage() {
     fenxiang.title = this.userInfo.foursName;
-    return fenxiang
+    return fenxiang;
   },
   onShow() {
     this.pageNo = 0;
     this.Closeflag = false;
     this.dataList = [];
-    this.listsData = []
+    this.listsData = [];
     this.getList();
   },
   onLoad() {
@@ -568,12 +652,11 @@ export default {
     this.Closeflag = false;
     this.dataList = [];
     this.listsData = [];
-    this.getCar()
+    this.getCar();
   },
 
-  onPullDownRefresh() {
-  }
-}
+  onPullDownRefresh() {},
+};
 </script>
 
 <style lang="scss" scoped>
@@ -1024,6 +1107,4 @@ export default {
     background-color: #298de5;
   }
 }
-
-
 </style>

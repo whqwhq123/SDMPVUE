@@ -7,10 +7,11 @@
     <focus-cus></focus-cus>
     <!-- <become-sale></become-sale> -->
     <!-- <car-style-and-price></car-style-and-price> -->
+     <rec-models></rec-models>
     <car-inccend></car-inccend>
     <effective-cus></effective-cus>
     <task-mgr></task-mgr>
-    <rec-models></rec-models>
+   
     <shop-invite></shop-invite>
 
     <!-- <tools></tools> -->

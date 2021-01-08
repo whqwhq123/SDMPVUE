@@ -19,25 +19,25 @@
         <div class="allpendcomList_list" v-for="list in dataList" :key="list">
           <div class="list_title">
             <div class="list_title_tit">
-              {{ list.title }}
+              {{ list.taskTitle }}
               <div class="fangkuai"></div>
             </div>
             <div class="list_title_star">
-              到店后<span class="list_title_starsp">{{ list.day }}</span
+              到店后<span class="list_title_starsp">{{ list.ruleConfig }}</span
               >天未成交客户
             </div>
           </div>
-
-          <div v-if="list.discount.length" class="list_youhui">
+          <!-- 活动 -->
+          <div v-if="list.discount" class="list_youhui">
             <div class="list_youhui_img">
               <img :src="imageApi + '/youhui.png'" alt="" />
             </div>
             <div class="list_youhui_tit">
               <div class="list_youhui_tit_time">
-                {{ list.discount[0].time }}
+                {{ list.discountStartTime }}-{{ list.discountEndTime }}
               </div>
               <div class="list_youhui_tit_span">
-                {{ list.discount[0].content }}
+                {{ list.discountContent }}
               </div>
             </div>
           </div>
@@ -49,7 +49,7 @@
               </div>
               姓名:
             </div>
-            <div class="list_all_sty">{{ list.useName }}</div>
+            <div class="list_all_sty">{{ list.userName }}</div>
           </div>
           <div class="list_all">
             <div class="list_all_yes">
@@ -58,7 +58,7 @@
               </div>
               电话:
             </div>
-            <div class="list_all_sty">{{ list.phone }}</div>
+            <div class="list_all_sty">{{ list.userPhone }}</div>
           </div>
           <div class="list_all">
             <div class="list_all_yes">
@@ -67,7 +67,7 @@
               </div>
               意向车型:
             </div>
-            <div class="list_all_sty">{{ list.modeot }}</div>
+            <div class="list_all_sty">{{ list.intentModel }}</div>
           </div>
           <div class="list_allone">
             <div class="list_all_box">
@@ -78,11 +78,9 @@
                 上次通话时间:
               </div>
 
-              <div class="list_all_sty">{{ list.lastTimePhone }}</div>
+              <div class="list_all_sty">{{ list.lastCallTime || "" }}</div>
             </div>
-            <div class="list_all_sty_span">
-              通话内容： 回访任务_优惠通知_11天未成交客户
-            </div>
+            <div class="list_all_sty_span">通话内容： {{ list.taskName }}</div>
           </div>
           <div class="list_all">
             <div class="list_all_yes">
@@ -91,9 +89,14 @@
               </div>
               上次到店时间:
             </div>
-            <div class="list_all_sty">{{ list.lastTimeStore }}</div>
+            <div class="list_all_sty">{{ list.taskCreateTime }}</div>
           </div>
-          <div class="list_buttom" @click="call">电话回访</div>
+          <div
+            class="list_buttom"
+            @click="call(list.taskUserInfoId, list.userPhone)"
+          >
+            电话回访
+          </div>
         </div>
       </template>
       <template v-else>
@@ -112,7 +115,7 @@ export default {
   props: {
     dataListArr: {
       type: Object,
-    },
+    }
   },
   data() {
     return {
@@ -120,25 +123,25 @@ export default {
       tabs: [
         {
           title: "全部任务",
-          type: 1,
+          type: 0,
           isShow: true,
           tips: 0,
         },
         {
           title: "到店回访",
-          type: 2,
+          type: 1,
           isShow: false,
-          tips: 2,
+          tips: 0,
         },
         {
           title: "试驾回访",
-          type: 3,
+          type: 2,
           isShow: false,
-          tips: 3,
+          tips: 0,
         },
         {
           title: "优惠通知",
-          type: 4,
+          type: 3,
           isShow: false,
           tips: 0,
         },
@@ -150,16 +153,16 @@ export default {
   watch: {
     dataListArr(ne) {
       this.dataList = ne;
-      console.log(ne);
+      console.log(ne, "pendingCom");
     },
   },
   methods: {
     //tab切换
     avtTabsFun(item, index) {
-      this.$emit("avtTabsFun", index + 1);
-      if (index + 1 === item.type) {
+      this.$emit("avtTabsFun", index);
+      if (index === item.type) {
         this.tabs = this.tabs.map((v, i) => {
-          if (v.type != index + 1) {
+          if (v.type != index) {
             v.isShow = false;
           } else {
             v.isShow = true;
@@ -170,37 +173,38 @@ export default {
       // this.AjaxFun(item);
     },
     //呼叫
-    // call() {
-    //   wx.makePhoneCall({
-    //     phoneNumber: this.customerPhone,
-    //     success: function () {},
-    //     fail: function () {},
-    //   });
-    // },
+    call(taskUserInfoId, userPhone) {
+      wx.makePhoneCall({
+        phoneNumber: userPhone,
+        success:  ()=> {
+          console.log("数据请求");
+          this.AjaxFun(taskUserInfoId, userPhone);
+          //呼叫完成之后调用父组件更新数据
+           this.$parent.AjaxFun()
+        },
+        fail: function () {},
+      });
+    },
 
     //数据请求
-    AjaxFun(item) {
+    AjaxFun(taskUserInfoId, userPhone) {
+      let token = wx.getStorageSync("token");
       let request = wx.request({
-        url: "http://localhost:9999/api.rapidTaskmgr",
-        data: {},
-        header: { "content-type": "application/json" },
-        method: "GET",
+        url: "http://10.20.0.210:7030/saasAdmin/task/update",
+        data: { taskUserInfoId, userPhone },
+        header: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          token: token,
+        },
+        method: "POST",
         dataType: "json",
         responseType: "text",
         success: (result) => {
           console.log(result);
-          this.dataList = this.dataList.concat(result.data);
-          //  console.log(this.dataList);
         },
         fail: () => {},
         complete: () => {},
       });
-
-      if (item) {
-        console.log(item.title);
-      } else {
-        console.log("全部任务");
-      }
     },
   },
   onLoad() {
